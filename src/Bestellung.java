@@ -8,6 +8,7 @@ import java.lang.reflect.Array;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 //import org.json.JSONArray;
 //import org.json.JSONObject;
 
@@ -70,66 +71,45 @@ public class Bestellung {
     public double berechneCO2ausstoß(double lkwVerbrauch, double rohkapazitaet, double nutzlast) {
         return entfernung * 26.5 * berechneEnergieverbrauch(lkwVerbrauch, rohkapazitaet, nutzlast);
     }
-
-    public double berechneExtern (double gesamtgewicht){
-    double transportkosten = 0;
-    int index = -1;
     
-    double[] kosten = new double[6]; 
-    kosten[0] = 4.50;
-    kosten[1] = 5.20;
-    kosten[2] = 6.15;
-    kosten[3] = 7.75; 
-    kosten[4] = 11.95;
-    kosten[5] = 13.95;
-    
-    double[] maxgewicht = new double[6];
-    maxgewicht[0] = 1.0;
-    maxgewicht[1] =	3.0;
-    maxgewicht[2] =	5.0;
-    maxgewicht[3] =	10.0;
-    maxgewicht[4] =	20.0;
-    maxgewicht[5] = 31.5;
     
 
-    for (int i = 0; i < maxgewicht.length; i++) {
-        if (this.gesamtgewicht <= maxgewicht[i]) {
-            index = i;
-            break;
+    public double berechneExtern(double gesamtgewicht) {
+    	
+        double[] kosten = { 4.50, 5.20, 6.15, 7.75, 11.95, 13.95 };
+        double[] gewichte = { 1.0, 3.0, 5.0, 10.0, 20.0, 31.5 };
+        
+        double summe = 0.0;
+        int kostenIndex = -1;
+        
+        while (gesamtgewicht > 0) {
+            for (int i = 0; i < gewichte.length; i++) {
+                if (gesamtgewicht <= gewichte[i]) {
+                    kostenIndex = i;
+                    break;
+                }
+            }
+            
+            if (kostenIndex == -1) {
+                kostenIndex = gewichte.length - 1;
+            }
+            
+            summe += kosten[kostenIndex];
+            gesamtgewicht -= gewichte[kostenIndex];
         }
         
+      
+        summe = Math.round(summe*100.0)/100.0;
+        
+        return summe;
     }
-    
-    if (index == -1) {
-        index = maxgewicht.length - 1;
-    }
-    
-    if (this.gesamtgewicht >= maxgewicht[index] && this.gesamtgewicht < maxgewicht[index+1]) {
-        // Return the corresponding transport cost for the weight range
-        return kosten[index];
-    } else {
-        // Return an error value indicating that the weight is outside the range of transport costs
-        return -1;
-    }
-    
-    
-    
-//    transportkosten = kosten[index];
-    
-//    System.out.println("Die Transportkosten betragen: " + transportkosten);
-    
-//    return transportkosten;
-//    
-    
-    
-
-		}
 
 
-
+    
+   
 
     public double berechneIntern(double gesamtgewicht, int plz) {  //formel für wirtschaftlichkeit anpassen!
-    	
+    	// 1 Palette = 1 Tonne 
     	Math.ceil(gesamtgewicht);
         double versandkosten = 0;
 
@@ -178,6 +158,10 @@ public class Bestellung {
 
         return distance;
     }
+    
+
+
+
 
 
 

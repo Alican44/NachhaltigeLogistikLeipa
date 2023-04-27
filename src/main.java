@@ -37,7 +37,7 @@ public class main {
        System.out.println("CO2 Ausstoß: "+ bestellung.co2ausstoß);
        System.out.println("Gesamtgewicht: "+ bestellung.gesamtgewicht);
        
-       bestellung.berechneExtern(3.0);
+       System.out.println(bestellung.berechneExtern(1502.3));
        
 
 
