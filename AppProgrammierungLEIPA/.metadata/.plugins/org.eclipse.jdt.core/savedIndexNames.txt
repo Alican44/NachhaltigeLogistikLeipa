@@ -1,4 +1,0 @@
-INDEX VERSION 1.131+D:\Dokumente\Hochschule Augsburg\4. Semester\Projekt1\AppProgrammierungLEIPA\.metadata\.plugins\org.eclipse.jdt.core
-4013597041.index
-3564006543.index
-1865797976.index
