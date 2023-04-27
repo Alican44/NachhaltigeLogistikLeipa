@@ -8,7 +8,6 @@ import java.lang.reflect.Array;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Scanner;
 //import org.json.JSONArray;
 //import org.json.JSONObject;
 
@@ -72,44 +71,96 @@ public class Bestellung {
         return entfernung * 26.5 * berechneEnergieverbrauch(lkwVerbrauch, rohkapazitaet, nutzlast);
     }
 
-    public double berechneExtern (){
-    return 0;
+    public double berechneExtern (double gesamtgewicht){
+    double transportkosten = 0;
+    int index = -1;
+    
+    double[] kosten = new double[6]; 
+    kosten[0] = 4.50;
+    kosten[1] = 5.20;
+    kosten[2] = 6.15;
+    kosten[3] = 7.75; 
+    kosten[4] = 11.95;
+    kosten[5] = 13.95;
+    
+    double[] maxgewicht = new double[6];
+    maxgewicht[0] = 1.0;
+    maxgewicht[1] =	3.0;
+    maxgewicht[2] =	5.0;
+    maxgewicht[3] =	10.0;
+    maxgewicht[4] =	20.0;
+    maxgewicht[5] = 31.5;
+    
+
+    for (int i = 0; i < maxgewicht.length; i++) {
+        if (this.gesamtgewicht <= maxgewicht[i]) {
+            index = i;
+            break;
+        }
+        
     }
-
-    public double rundeGewicht(double gesamtgewicht) {
-        Math.ceil(gesamtgewicht);
-        return gesamtgewicht;
+    
+    if (index == -1) {
+        index = maxgewicht.length - 1;
     }
+    
+    if (this.gesamtgewicht >= maxgewicht[index] && this.gesamtgewicht < maxgewicht[index+1]) {
+        // Return the corresponding transport cost for the weight range
+        return kosten[index];
+    } else {
+        // Return an error value indicating that the weight is outside the range of transport costs
+        return -1;
+    }
+    
+    
+    
+//    transportkosten = kosten[index];
+    
+//    System.out.println("Die Transportkosten betragen: " + transportkosten);
+    
+//    return transportkosten;
+//    
+    
+    
 
-    public double berechneIntern(double gesamtgewicht, double anzPaletten, int plz) {  //formel für wirtschaftlichkeit anpassen!
+		}
 
 
+
+
+    public double berechneIntern(double gesamtgewicht, int plz) {  //formel für wirtschaftlichkeit anpassen!
+    	
+    	Math.ceil(gesamtgewicht);
         double versandkosten = 0;
 
         if (String.valueOf(plz).charAt(0) == '0') {
-            versandkosten = 53;
+            versandkosten = gesamtgewicht/1000 * 53;
         } else if (String.valueOf(plz).charAt(0) == '1') {
-            versandkosten = 68;
+            versandkosten = gesamtgewicht/1000 * 68;
         } else if (String.valueOf(plz).charAt(0) == '2') {
-            versandkosten = 80;
+            versandkosten = gesamtgewicht/1000 * 80;
         } else if (String.valueOf(plz).charAt(0) == '3') {
-            versandkosten = 60;
+            versandkosten = gesamtgewicht/1000 * 60;
         } else if (String.valueOf(plz).charAt(0) == '4') {
-            versandkosten = 54;
+            versandkosten = gesamtgewicht/1000 * 54;
         } else if (String.valueOf(plz).charAt(0) == '5') {
-            versandkosten = 50;
+            versandkosten = gesamtgewicht/1000 * 50;
         } else if (String.valueOf(plz).charAt(0) == '6') {
-            versandkosten = 48;
+            versandkosten = gesamtgewicht/1000 * 48;
         } else if (String.valueOf(plz).charAt(0) == '7') {
-            versandkosten = 25;
+            versandkosten = gesamtgewicht/1000 * 25;
         } else if (String.valueOf(plz).charAt(0) == '8') {
-            versandkosten = 24;
+            versandkosten = gesamtgewicht/1000 * 24;
+        } else if (String.valueOf(plz).charAt(0) == '9') {
+            versandkosten = gesamtgewicht/1000 * 24;
+        } else {
+        	System.out.println("Postleitzahl nicht verfügbar");
         }
+        
 
     return versandkosten;
 
     }
-
 
 
     public static final double EARTH_RADIUS_KM = 6371.01;
