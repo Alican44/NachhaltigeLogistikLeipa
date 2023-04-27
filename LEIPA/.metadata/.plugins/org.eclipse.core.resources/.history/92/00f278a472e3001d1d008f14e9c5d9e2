@@ -1,0 +1,17 @@
+package de.cevo;
+
+public class Test {
+	
+	public static void main(String[] args) throws ClassNotFoundException {
+	
+	MySQL.connect();
+	
+	MySQL.update("SELECT * FROM `user`");
+	
+	}
+	
+	
+
+
+
+}

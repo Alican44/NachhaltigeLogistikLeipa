@@ -1,0 +1,20 @@
+
+public class Bestellungen {
+	
+	 double menge; 
+	 double entfernung; 
+	 double dieselverbrauch;
+	 double energieverbrauch;
+	 double co2ausstoﬂ;
+	 static double umrechnungsfaktor = 26.5;
+	 static double preisprotonne = 30;
+	 static double bepreisungco2 = 0.07; 
+	 
+	
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+}

@@ -1,0 +1,8 @@
+
+public class LKW {
+	
+	static int verbrauch = 40;
+	static int ladungsgewicht = 25; 
+	
+
+}
